@@ -30,74 +30,188 @@ This repository is a comprehensive collection of Java-based implementations of c
 ---
 ## 🔍 Concept Overview
 
-### 1. Linear Structures  
-- **Arrays & Lists**:  
-  - **Concept**: Contiguous storage, constant‑time indexed access.  
-  - **Trade‑offs**: Fast reads (`O(1)`), expensive insert/delete (`O(n)`).  
-  - **Folder**: `DS/`  
-- **Stacks & Queues**:  
-  - **Concept**: LIFO vs. FIFO ordering.  
-  - **Use Cases**: Backtracking (call stacks), task scheduling, breadth‑first search.  
-  - **Folder**: `DS/`  
+### 1. Linear Structures (`DS/`)
 
-### 2. Trees & Hierarchies  
-- **Binary Trees**:  
-  - **Concept**: Each node up to two children. Recursion-friendly.  
-  - **Operations**: Pre‑order, in‑order, post‑order traversals (`O(n)`), height calculation.  
-  - **Folder**: `BST/`  
-- **Binary Search Trees (BST)**:  
-  - **Concept**: Ordered tree → left < root < right.  
-  - **Performance**: Search/insert/delete average `O(log n)`, worst-case `O(n)`.  
-  - **Folder**: `BST/`  
-- **Tries (Prefix Trees)**:  
-  - **Concept**: Multi‑way tree keyed by characters → efficient string lookup.  
-  - **Use Cases**: Auto‑complete, spell‑check.  
-  - **Folder**: `Trie_DS/`  
+**Concept**  
+- **List (ArrayList)**: Ordered collection backed by array—O(1) access, O(n) insert/delete at arbitrary positions.  
+- **LinkedList**: Chain of nodes—O(1) insert/delete at ends, O(n) access.  
+- **Stack** (LIFO): Push/pop operations—ideal for backtracking, expression evaluation.  
+- **Queue** (FIFO): Enqueue/dequeue—useful for breadth‑first search, task scheduling.
 
-### 3. Graphs & Networks  
-- **Graph Representations**:  
-  - **Adjacency List vs. Matrix**: List (`O(V + E)` space) for sparse graphs; matrix (`O(V²)`) for dense.  
+**Folder Contents**  
+- `ArrayListDemo.java` – add/get/remove, dynamic resizing  
+- `LinkedListDemo.java` – node insert, delete, traversal  
+- `StackDemo.java` – push, pop, peek, underflow check  
+- `QueueDemo.java` – enqueue, dequeue, isEmpty  
+
+**Complexities**  
+| Operation      | ArrayList | LinkedList | Stack/Queue |
+|----------------|-----------|------------|-------------|
+| Access         | O(1)      | O(n)       | O(1)        |
+| Insert/Delete  | O(n)      | O(1)\*     | O(1)        |
+| Memory         | O(n)      | O(n) + ptr | O(n)        |
+
+_\* at head/tail in singly/doubly linked list_
+
+---
+
+### 2. Binary Search Tree (`BST/`)
+
+**Concept**  
+A **binary tree** in which for each node:
+- left subtree nodes ≤ node  
+- right subtree nodes ≥ node  
+
+Supports dynamic set operations in logarithmic average time.
+
+**Key Operations**  
+- `insert(key)`: place new value → average O(log n)  
+- `search(key)`: find node → average O(log n)  
+- `delete(key)`: remove node, rebalance subtrees → average O(log n)  
 - **Traversals**:  
-  - **Depth‑First Search (DFS)**: Recursion/deep stack → path finding, cycle detection.  
-  - **Breadth‑First Search (BFS)**: Queue → shortest path in unweighted graphs.  
-  - **Folder**: `Graph_DS/`  
+  - Pre‑order (root, left, right)  
+  - In‑order  (left, root, right)  
+  - Post‑order(left, right, root)  
 
-### 4. Hashing & Sets  
-- **Hash Tables**:  
-  - **Concept**: Key → hash function → bucket → average `O(1)` access.  
-  - **Collision Resolution**: Chaining, open addressing.  
-  - **Folder**: `Hashset/`  
-- **Sets**:  
-  - **Concept**: Unordered, unique elements.  
-  - **Use Cases**: Membership tests, deduplication.  
-  - **Folder**: `Hashset/`  
+**Folder Contents**  
+- `Node.java` – tree node class (key, left, right)  
+- `BST.java` – insert, search, delete implementations  
+- `Traversals.java` – static methods for pre/in/post-order  
+- `Main.java` – interactive console demo  
 
-### 5. Bit Manipulation  
-- **Concept**: Leverage binary representation for constant‑time tricks.  
-- **Examples**:  
-  - Bitwise AND/OR/XOR  
-  - Shifting (`<<`, `>>`)  
-  - Masks to extract or flip bits  
-- **Folder**: `BitManup/`  
+**Complexities**  
+- **Average**: O(log n) for insert/search/delete  
+- **Worst**: O(n) (skewed tree)  
+- **Space**: O(n)  
 
-### 6. Sorting & Searching  
-- **Comparison‑Based Sorts**:  
-  - **Bubble, Insertion**: Easy, but `O(n²)` worst-case.  
-  - **Merge, Quick, Heap**: Divide‑and‑conquer or heap structures → average `O(n log n)`.  
-  - **Folder**: `Sorting/`  
-- **Search Techniques**:  
-  - **Linear Search**: `O(n)` scan.  
-  - **Binary Search**: `O(log n)` on sorted arrays.  
-  - **Folder**: `Searching/`  
+---
 
-### 7. String Manipulation  
-- **StringBuilder & Buffer**:  
-  - **Concept**: Mutable string constructs to avoid `O(n²)` concatenation cost.  
-  - **Folder**: `String_builder/`
-  
-## 🚀 How to Use
+### 3. Trie / Prefix Tree (`Trie_DS/`)
 
-1. Clone the repository:
+**Concept**  
+A **multi‑way tree** storing strings by characters. Each edge represents one character; nodes mark word completions.
+
+**Use Cases**  
+- Auto‑complete  
+- Spell‑check  
+- IP routing (longest prefix match)  
+
+**Key Operations**  
+- `insert(word)`: O(m) where m = word length  
+- `search(word)`: O(m)  
+- `startsWith(prefix)`: O(p) where p = prefix length  
+
+**Folder Contents**  
+- `TrieNode.java` – map of children, boolean endOfWord  
+- `Trie.java` – insert, search, startsWith  
+- `Main.java` – usage examples & test cases  
+
+---
+
+### 4. Graphs & Traversals (`Graph_DS/`)
+
+**Concept**  
+A graph is a set of vertices (V) connected by edges (E). Represented as:
+- **Adjacency List** (preferred for sparse graphs)  
+- **Adjacency Matrix** (for dense graphs / constant‑time edge check)
+
+**Key Algorithms**  
+- **Breadth‑First Search (BFS)**: shortest path in unweighted graphs, O(V+E)  
+- **Depth‑First Search (DFS)**: pathfinding, cycle detection, topological sort, O(V+E)  
+
+**Folder Contents**  
+- `Graph.java` – builds adjacency list, addEdge()  
+- `BFS.java` – level‑order traversal, distance array  
+- `DFS.java` – recursive & iterative methods  
+- `Main.java` – example graph creation & traversal demos  
+
+---
+
+### 5. Hashing & Set Operations (`Hashset/`)
+
+**Concept**  
+A **hash table** maps keys → buckets via hash function. Average O(1) lookup/insert/delete.
+
+**Collision Handling**  
+- **Chaining**: linked lists in each bucket  
+- **Open Addressing**: probing (linear, quadratic)
+
+**Set**  
+- A collection of unique elements, exposes membership tests in O(1) average.
+
+**Folder Contents**  
+- `HashTableChaining.java` – custom implementation, put/get/remove  
+- `OpenAddressingHashTable.java` – linear probing demo  
+- `SetDemo.java` – Java’s `HashSet` usage examples  
+
+---
+
+### 6. Bit Manipulation (`BitManup/`)
+
+**Concept**  
+Directly operate on binary representations to achieve constant‑time tricks.
+
+**Common Techniques**  
+- **Check bit**: `(n & (1 << k)) != 0`  
+- **Set bit**: `n | (1 << k)`  
+- **Clear bit**: `n & ~(1 << k)`  
+- **Toggle bit**: `n ^ (1 << k)`  
+- **Count bits**: Brian Kernighan’s algorithm, built‑in `Integer.bitCount()`  
+
+**Folder Contents**  
+- `BitUtils.java` – utility methods for each operation  
+- `PracticeProblems.java` – sample problems (single number, power of two)  
+
+---
+
+### 7. Searching Algorithms (`Searching/`)
+
+**Algorithms**  
+- **Linear Search**: O(n), trivial scan  
+- **Binary Search**: O(log n) on sorted arrays  
+- **Interpolation Search**: O(log log n) average for uniformly distributed data  
+
+**Folder Contents**  
+- `LinearSearch.java`  
+- `BinarySearch.java`  
+- `InterpolationSearch.java`  
+- `Main.java` – benchmarks & comparisons  
+
+---
+
+### 8. Sorting Algorithms (`Sorting/`)
+
+**Comparison‑Based Sorts**  
+- **Bubble Sort**: O(n²), educational  
+- **Insertion Sort**: O(n²), adaptive for small / nearly sorted arrays  
+- **Merge Sort**: O(n log n), stable, divide‑and‑conquer  
+- **Quick Sort**: O(n log n) average, O(n²) worst, in‑place  
+- **Heap Sort**: O(n log n), in‑place, not stable  
+
+**Folder Contents**  
+- `BubbleSort.java`  
+- `InsertionSort.java`  
+- `MergeSort.java`  
+- `QuickSort.java`  
+- `HeapSort.java`  
+- `SortTester.java` – time comparisons on random arrays  
+
+---
+
+### 9. Efficient String Operations (`String_builder/`)
+
+**Concept**  
+`String` concatenation in Java can be O(n²). Use `StringBuilder` (or `StringBuffer`) to build strings in O(n).
+
+**Folder Contents**  
+- `StringBuilderDemo.java` – append, insert, reverse, toString()  
+- `StringAlgorithms.java` – common string problems using builder  
+
+---
+
+## 🚀 Getting Started
+
+1. **Clone** this repo:  
    ```bash
    git clone https://github.com/raj04h/DSA.git
-
+   cd DSA
